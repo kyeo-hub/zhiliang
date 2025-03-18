@@ -1,0 +1,32 @@
+services:
+  app:
+    image: zhiliang
+    container_name: zhiliang-api
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_HOST=mongodb
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      - mongodb
+    networks:
+      - zl-network
+  
+
+  mongodb:
+    image: mongo:4.4.0
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: youruser
+      MONGO_INITDB_ROOT_PASSWORD: yourpassword
+    volumes:
+      - ./mongodb-data/data:/data/db
+    command: --auth
+    networks:
+      - zl-network
+
+networks:
+  zl-network:
+    driver: bridge

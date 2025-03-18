@@ -1,0 +1,33 @@
+{
+  "name": "zhiliang",
+  "version": "1.0.0",
+  "description": "zhiliang-api",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyeo-hub/zhiliang.git"
+  },
+  "keywords": [
+    "zhiliang",
+    "api"
+  ],
+  "author": "kyeo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kyeo-hub/zhiliang/issues"
+  },
+  "homepage": "https://github.com/kyeo-hub/zhiliang#readme",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "minio": "^8.0.4",
+    "mongoose": "^8.10.1",
+    "multer": "^1.4.5-lts.1"
+  }
+}
