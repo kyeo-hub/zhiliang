@@ -1,0 +1,89 @@
+<view class="container">
+  <!-- 顶部信息栏 -->
+  <view class="header">
+    <text class="title">钢卷号：{{detail.tagNumber}}</text>
+    <text class="date">创建时间：{{detail.createdAt}}</text>
+  </view>
+
+  <!-- 基础信息卡片 -->
+  <view class="card info-card">
+    <view class="card-header">
+      <text class="card-title">基础信息</text>
+    </view>
+    <view class="card-content">
+      <view class="info-item">
+        <text class="label">质量缺陷：</text>
+        <text class="value">{{detail.qualityIssue}}</text>
+      </view>
+      <view class="info-item">
+        <text class="label">存储位置：</text>
+        <text class="value">{{detail.storageLocation}}</text>
+      </view>
+      <view class="info-item">
+        <text class="label">提交人：</text>
+        <text class="value">{{detail.createBy}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 缺陷照片区域 -->
+  <view class="card photo-card">
+    <view class="card-header">
+      <text class="card-title">缺陷照片 ({{detail.photos.length}}张)</text>
+    </view>
+    <view wx:if="{{detail.photos.length===0}}">
+      <text class="card-title">无缺陷照片</text>
+    </view>
+    <view wx:else>
+      <scroll-view class="photo-list" scroll-x>
+        <block wx:for="{{detail.photos}}" wx:key="index">
+          <image class="photo" src="{{item.url}}" mode="aspectFill" bindtap="previewImage" data-index="{{index}}" />
+        </block>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 修复信息卡片（仅当已修复时显示） -->
+  <block wx:if="{{detail.isRepaired}}">
+    <view class="card repair-card">
+      <view class="card-header">
+        <text class="card-title">修复信息</text>
+      </view>
+      <view class="card-content">
+        <view class="info-item">
+          <text class="label">修复时间：</text>
+          <text class="value">{{formatDate(detail.updatedAt)}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">修复情况：</text>
+          <text class="value">{{detail.repairedDescription}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">修复后储位：</text>
+          <text class="value">{{detail.repairedLocation}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">修复人：</text>
+          <text class="value">{{detail.updateBy}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 修复后照片区域 -->
+    <view class="card repair-card">
+      <view class="card-header">
+        <text class="card-title">修复后照片 ({{detail.repairedPhotos.length}}张)</text>
+      </view>
+      <view wx:if="{{detail.repairedPhotos.length === 0}}">
+        <text class="card-title">无缺陷照片</text>
+      </view>
+      <view wx:else>
+        <scroll-view class="photo-list" scroll-x>
+          <block wx:for="{{detail.repairedPhotos}}" wx:key="index">
+            <image class="photo" src="{{item.url}}" mode="aspectFill" bindtap="previewImage" data-index="{{index}}" />
+          </block>
+        </scroll-view>
+      </view>
+    </view>
+  </block>
+</view>

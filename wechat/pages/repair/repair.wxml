@@ -1,0 +1,106 @@
+<view class="container">
+  <!-- 顶部信息栏 -->
+  <view class="header">
+    <text class="title">钢卷号：{{detail.tagNumber}}</text>
+    <text class="date">创建时间：{{detail.createdAt}}</text>
+  </view>
+
+  <!-- 基础信息卡片 -->
+  <view class="card info-card">
+    <view class="card-header">
+      <text class="card-title">基础信息</text>
+    </view>
+    <view class="card-content">
+      <view class="info-item">
+        <text class="label">质量缺陷：</text>
+        <text class="value">{{detail.qualityIssue}}</text>
+      </view>
+      <view class="info-item">
+        <text class="label">存储位置：</text>
+        <text class="value">{{detail.storageLocation}}</text>
+      </view>
+      <view class="info-item">
+        <text class="label">提交人：</text>
+        <text class="value">{{detail.createBy}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 缺陷照片区域 -->
+  <view class="card photo-card">
+    <view class="card-header">
+      <text class="card-title">缺陷照片 ({{detail.photos.length}}张)</text>
+    </view>
+    <scroll-view class="photo-list" scroll-x>
+      <block wx:for="{{detail.photos}}" wx:key="index">
+        <image 
+          class="photo" 
+          src="{{item.url}}" 
+          mode="aspectFill" 
+          bindtap="previewImage" 
+          data-index="{{index}}" 
+        />
+      </block>
+    </scroll-view>
+  </view>
+
+  <!-- 修复表单 -->
+  <view class="card form-card">
+    <view class="card-header">
+      <text class="card-title">修复信息</text>
+    </view>
+    <form bindsubmit="formSubmit" class="form-content">
+      <!-- 修复后库位 -->
+      <view class="form-item">
+        <text class="label">修复后库位：</text>
+        <input 
+          class="input" 
+          name="repairedLocation" 
+          placeholder="请输入修复后库位" 
+          value="{{repairedLocation}}"
+          bindinput="repairedLocationInput"
+        />
+      </view>
+
+      <!-- 修复描述 -->
+      <view class="form-item">
+        <text class="label">修复描述：</text>
+        <textarea 
+          class="textarea" 
+          name="repairedDescription" 
+          placeholder="请输入修复后描述" 
+          value="{{repairedDescription}}"
+          bindinput="repairedDescriptionInput"
+        />
+      </view>
+
+      <!-- 修复后照片 -->
+      <view class="form-item image-picker">
+        <text class="label">修复后照片：</text>
+        <view class="image-picker-container">
+          <button class="picker-btn" bindtap="chooseImage">
+             <image class="tianjia" src="/assets/tianjia.png" mode="widthFix"></image>   选择图片
+          </button>
+          <scroll-view class="preview-list" scroll-x>
+            <block wx:for="{{images}}" wx:key="index">
+              <image 
+                class="preview-image" 
+                src="{{item}}" 
+                mode="aspectFill" 
+                bindtap="previewImage" 
+                data-index="{{index}}"
+              />
+            </block>
+          </scroll-view>
+        </view>
+      </view>
+
+      <!-- 提交按钮 -->
+      <button 
+        class="submit-btn" 
+        form-type="submit" 
+        loading="{{isSubmitting}}"
+      >提交修复</button>
+    </form>
+  </view>
+</view>

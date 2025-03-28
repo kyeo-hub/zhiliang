@@ -1,0 +1,37 @@
+<view class="container">
+  <view class="header">
+    <text class="title">钢卷质量问题上报</text>
+  </view>
+  <view class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    <button bindtap="quit" class="quit_btn">退出</button>
+  </view>
+  <form bindsubmit="formSubmit" class="form">
+    <view class="form-item">
+      <label>标签号</label>
+      <view class="input-with-button">
+        <input name="tagNumber" placeholder="请输入或扫描标签号" value="{{tagNumber}}" bindinput="onTagNumberInput" type="text" />
+        <button bindtap="scanCode">
+          <image src="/assets/scan.png" class="scan-icon"></image>
+        </button>
+      </view>
+    </view>
+    <view class="form-item">
+      <label>库位</label>
+      <input name="storageLocation" placeholder="请输入库位" class="input" value="{{storageLocation}}" bindinput="onstorageLocationInput" type="text" />
+    </view>
+    <view class="form-item">
+      <label>质量描述</label>
+      <textarea name="qualityDescription" placeholder="请输入质量描述" class="textarea" value="{{qualityDescription}}" bindinput="onqualityDescriptionInput" type="text" />
+    </view>
+
+    <view class="form-item image-picker">
+      <button bindtap="chooseImage" class="btn">选择图片</button>
+      <view class="image-preview">
+        <image wx:for="{{images}}" wx:key="*this" src="{{item}}" mode="aspectFit" class="preview-image"></image>
+      </view>
+    </view>
+    <button form-type="submit" class="submit-btn" loading="{{isSubmitting}}">提交</button>
+  </form>
+</view>

@@ -1,0 +1,78 @@
+<!-- index.wxml -->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input class="search-input" placeholder="输入钢卷编号搜索" value="{{searchKey}}" bindinput="onSearchInput" />
+    <view class="filter-btn" bindtap="toggleFilterPanel">筛选</view>
+  </view>
+
+  <!-- 筛选面板 -->
+  <view class="filter-panel" wx:if="{{filterPanelVisible}}">
+    <view class="filter-item">
+      <text>状态：</text>
+      <picker mode="selector" range="{{['全部', '未整改', '已修复']}}" bindchange="onStatusChange">
+        <view class="picker">{{selectedStatus || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="filter-item">
+      <text>日期范围：</text>
+      <picker mode="date" fields="day" value="{{startDate}}" start="{{'2020-01-01'}}" bindchange="onStartDateChange">
+        <view class="date-picker">{{startDate || '开始日期'}}</view>
+      </picker>
+      <text>至</text>
+      <picker mode="date" fields="day" value="{{endDate}}" start="{{startDate}}" bindchange="onEndDateChange">
+        <view class="date-picker">{{endDate || '结束日期'}}</view>
+      </picker>
+    </view>
+    <view class="filter-actions">
+      <button class="confirm-btn" bindtap="applyFilters">确定</button>
+      <button class="reset-btn" bindtap="resetFilters">重置筛选</button>
+    </view>
+  </view>
+
+  <!-- 列表容器 -->
+  <scroll-view class="list-container" scroll-y lower-threshold="50">
+    <!-- 加载状态 -->
+    <view wx:if="{{loading}}" class="loading-indicator">
+      <text>加载中...</text>
+    </view>
+
+    <!-- 数据列表 -->
+    <view wx:for="{{steelList}}" wx:key="id" class="list-item" data-id="{{item._id}}" bindtap="navigateToDetail">
+      <view class="item-content">
+        <view class="item-row">
+          <text>钢卷编号：</text>
+          <text>{{item.tagNumber}}</text>
+        </view>
+        <view class="item-row">
+          <text>质量问题：</text>
+          <text>{{item.qualityIssue}}</text>
+        </view>
+        <view class="item-row">
+          <text>存储位置：</text>
+          <text>{{item.storageLocation}}</text>
+        </view>
+        <view class="item-row">
+          <text>创建时间：</text>
+          <text>{{item.createdAt}}</text>
+        </view>
+        <view class="status-tag {{item.isRepaired ? 'repaired' : 'unrepaired'}}">
+          {{item.isRepaired ? '已修复':'未整改'}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 无数据提示 -->
+    <view wx:if="{{steelList.length === 0 && !loading}}" class="empty-state">
+      <text>暂无相关数据</text>
+    </view>
+  </scroll-view>
+
+  <!-- 分页导航 -->
+  <view wx:if="{{steelList.length !== 0 && !loading}}" class="pagination">
+    <text class="page-total">共 {{total}} 条</text>
+    <text class="page-math">当前 {{page}}/{{pageTotal}}</text>
+    <button class="page-btn" bindtap="prevPage">上一页</button>
+    <button class="page-btn" bindtap="nextPage">下一页</button>
+  </view>
+</view>

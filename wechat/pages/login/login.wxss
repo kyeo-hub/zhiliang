@@ -1,0 +1,180 @@
+/**index.wxss**/
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollarea {
+  flex: 1;
+  overflow-y: hidden;
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #aaa;
+  width: 80%;
+}
+
+.userinfo-avatar {
+  overflow: hidden;
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.usermotto {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #aaa;
+  width: 80%;
+}
+
+.avatar-wrapper {
+  padding: 0;
+  width: 56px !important;
+  border-radius: 8px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.avatar {
+  display: block;
+  width: 56px;
+  height: 56px;
+}
+
+.nickname-wrapper {
+  display: flex;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  border-top: .5px solid rgba(0, 0, 0, 0.1);
+  border-bottom: .5px solid rgba(0, 0, 0, 0.1);
+  color: black;
+}
+
+.nickname-label {
+  width: 105px;
+}
+
+.nickname-input {
+  flex: 1;
+}
+
+
+/* 提示框基础样式 */
+.alert-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  margin: 20px 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s;
+  min-width: 300px;
+}
+
+/* 高对比度配色方案 */
+.alert-box.warning {
+  background-color: #FFD700;
+  /* 亮黄色背景 */
+  color: #333;
+}
+
+.alert-box.error {
+  background-color: #FF6B6B;
+  /* 警告红色 */
+  color: white;
+}
+
+.alert-box.success {
+  background-color: #4CD964;
+  /* 成功绿色 */
+  color: white;
+}
+
+/* 图标样式 */
+.icon {
+  font-size: 24px;
+  margin-right: 15px;
+  color: #E65100;
+  /* 图标强调色 */
+}
+
+/* 内容排版 */
+.content {
+  flex: 1;
+  margin-right: 25px;
+}
+
+.content strong {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.content p {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.group-group_btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+}
+
+.login_btn {
+  background-color: cornflowerblue;
+  margin: 20px;
+}
+
+/* 关闭按钮 */
+.close-btn {
+  margin: 20px;
+  border: 2px dashed #000; /* 2px宽度的黑色虚线边框 */
+  background: transparent;
+  /* font-size: 20px; */
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #888;
+}
+
+/* 动态效果 */
+.alert-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .alert-box {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .icon {
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+
+  .content,
+  .close-btn {
+    margin: 0 0 10px;
+    text-align: center;
+  }
+}

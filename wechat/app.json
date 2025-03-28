@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/record/index",
+    "pages/report/index",
+    "pages/rectify/index",
+    "pages/detail/detail",
+    "pages/repair/repair",
+    "pages/login/login"
+  ],
+  "tabBar": {
+    "custom": true,
+    "color": "#333333",
+    "selectedColor": "#333333",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/report/index",
+        "text": "上报"
+      },
+      {
+        "pagePath": "pages/rectify/index",
+        "text": "整改"
+      },
+      {
+        "pagePath": "pages/record/index",
+        "text": "查询"
+      }
+    ]
+  },
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "武钢物流钢卷质量",
+    "navigationBarBackgroundColor": "#ffffff"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

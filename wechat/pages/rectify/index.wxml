@@ -1,0 +1,28 @@
+<view class="search-box">
+  <input placeholder="输入钢卷号查询" bindinput="onSearchInput" />
+  <!-- <button bindtap="doSearch">搜索</button> -->
+  <button bindtap="refresh">刷新</button>
+</view>
+
+<!-- 结果列表 -->
+<scroll-view class="list-container" scroll-y>
+  <block wx:for="{{filteredList}}" wx:key="_id">
+    <view class="list-item" bindtap="navigateToDetail" data-id="{{item._id}}">
+      <view class="item-header">
+        <text class="tag-number">{{item.tagNumber}}</text>
+        <text class="create-date">{{item.createdAt}}</text>
+      </view>
+      <view class="item">
+        <view class="item-body">
+          <text class="issue">缺陷描述：{{item.qualityIssue}}</text>
+          <text class="creator">提交人：{{item.createBy}}</text>
+        </view>
+        <text class="issue">{{item.repairedInfo}}</text>
+      </view>
+    </view>
+  </block>
+  <view wx:if="{{!loading && filteredList.length === 0}}" class="empty-tip">暂无数据</view>
+</scroll-view>
+
+<!-- 加载状态 -->
+<loading hidden="{{!loading}}">加载中...</loading>
