@@ -1,3 +1,4 @@
+const req = require('../../utils/req.js')
 Component({
   data: {
     resetButtonVisible: false, // 控制重置按钮显示（可选）
@@ -15,6 +16,10 @@ Component({
     loading: false
   },
   attached: function () {
+    const userInfo = wx.getStorageSync('userInfo')
+    this.setData({
+      userInfo: userInfo
+    })
     this.loadData();
   },
   methods: {
@@ -38,8 +43,8 @@ Component({
         // 过滤空值和无效参数
         Object.keys(params).forEach(key => {
           if (
-            params[key] === undefined || 
-            params[key] === null || 
+            params[key] === undefined ||
+            params[key] === null ||
             params[key] === ''
           ) {
             delete params[key];
@@ -57,6 +62,9 @@ Component({
             success: resolve,
             fail: reject
           });
+        });
+        res.data.data.forEach(item => {
+          item.createdAt = this.formatDate(item.createdAt);
         });
         const {
           data,
@@ -175,6 +183,39 @@ Component({
       // console.log(tagNumber)
       wx.navigateTo({
         url: `/pages/detail/detail?id=${id}`
+      });
+    },
+    // 删除记录
+    deleteRecord(e) {
+      const id = e.currentTarget.dataset.id;
+      wx.showModal({
+        title: '确认删除',
+        content: '确定要删除这条记录吗？',
+        success: (res) => {
+          if (res.confirm) {
+            req.request({
+              url: `https://zl-api.kyeo.top/api/steel-coils/delete/${id}`,
+              method: 'DELETE'
+            }).then((res) => {
+              if (res.error) {
+                wx.showToast({
+                  title: res.error,
+                  icon: 'none'
+                });
+              } else {
+                wx.showToast({
+                  title: '删除成功'
+                });
+                this.loadData(); // 重新加载记录
+              }
+            }).catch((err) => {
+              wx.showToast({
+                title: err.message,
+                icon: 'none'
+              });
+            })
+          }
+        }
       });
     }
   },

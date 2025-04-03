@@ -65,3 +65,8 @@ const initBucket = async () => {
 };
 
 initBucket().catch(console.error);
+
+module.exports = {
+    minioClient,
+    getPresignedPostPolicy: exports.getPresignedPostPolicy
+};

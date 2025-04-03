@@ -6,7 +6,7 @@
 }
 
 .list-container {
-  height: calc(100vh - 120rpx);
+  height: calc(100vh - 300rpx);
 }
 
 .list-item {

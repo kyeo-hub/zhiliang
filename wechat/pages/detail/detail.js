@@ -14,23 +14,25 @@ Page({
     });
     try {
       const that = this
-      await wx.request({
-        url: `https://zl-api.kyeo.top/api/steel-coils/query?id=${id}`,
-        method: 'GET',
-        success(res) {
-          if (res.data.data) {
-            const detail_data = res.data.data[0]
-            detail_data.createdAt = that.formatDate(detail_data.createdAt)
-            if (detail_data.updatedAt){
-              detail_data.updatedAt = that.formatDate(detail_data.updatedAt)
-            }
-            that.setData({
-              detail: detail_data
-            });
-          }
-        }
-      });
+      const res = await new Promise((resolve, reject) => {
+        wx.request({
+          url: `https://zl-api.kyeo.top/api/steel-coils/query?id=${id}`,
+          method: 'GET',
+          success: resolve,
+          fail: reject
+        });
+      })
 
+      if (res.data.data[0]) {
+        const detail_data = res.data.data[0]
+        detail_data.createdAt = that.formatDate(detail_data.createdAt)
+        if (detail_data.updatedAt) {
+          detail_data.updatedAt = that.formatDate(detail_data.updatedAt)
+        }
+        that.setData({
+          detail: detail_data
+        });
+      }
     } catch (err) {
       wx.showToast({
         title: '加载失败',

@@ -7,17 +7,48 @@ Page({
     userInfo: {
       avatarUrl: defaultAvatarUrl,
       nickName: '',
+      token: '',
+      role: ''
     },
     hasUserInfo: false,
     canIUseGetUserProfile: wx.canIUse('getUserProfile'),
     canIUseNicknameComp: wx.canIUse('input.type.nickname'),
   },
-  bindViewTap() {
+
+  async bindViewTap() {
     if (this.data.hasUserInfo) {
-      wx.setStorageSync('userInfo', this.data.userInfo)
-      wx.switchTab({
-        url: "/pages/report/index"
-      })
+      try {
+        // 发送登录请求
+        const res = await new Promise((resolve, reject) => {
+          wx.request({
+            url: 'https://zl-api.kyeo.top/api/auth/login',
+            method: 'POST',
+            data: {
+              nickName: this.data.userInfo.nickName
+            },
+            success: resolve,
+            fail: reject
+          });
+        })
+        const {
+          token,
+          role
+        } = res.data;
+        this.setData({
+          "userInfo.token": token,
+          "userInfo.role": role,
+        })
+      } catch (err) {
+        wx.showToast({
+          title: 'token获取失败',
+          icon: 'none'
+        });
+      } finally {
+        wx.setStorageSync('userInfo', this.data.userInfo)
+        wx.switchTab({
+          url: "/pages/report/index"
+        })
+      }
     } else {
       wx.showToast({
         title: '未登录！',
@@ -29,7 +60,9 @@ Page({
     this.setData({
       userInfo: {
         avatarUrl: defaultAvatarUrl,
-        nickName: ''
+        nickName: '',
+        token: '',
+        role: ''
       }
     })
     wx.showToast({
@@ -68,11 +101,10 @@ Page({
     wx.getUserProfile({
       desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (res) => {
-        console.log(res)
         this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true
-        })
+        });
       }
     })
   },

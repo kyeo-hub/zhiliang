@@ -38,7 +38,7 @@
     </view>
 
     <!-- 数据列表 -->
-    <view wx:for="{{steelList}}" wx:key="id" class="list-item" data-id="{{item._id}}" bindtap="navigateToDetail">
+    <view wx:for="{{steelList}}" wx:key="id" class="list-item" data-id="{{item._id}}">
       <view class="item-content">
         <view class="item-row">
           <text>钢卷编号：</text>
@@ -59,6 +59,10 @@
         <view class="status-tag {{item.isRepaired ? 'repaired' : 'unrepaired'}}">
           {{item.isRepaired ? '已修复':'未整改'}}
         </view>
+      </view>
+      <view class="group-btn">
+        <button class="detail-btn" bindtap="navigateToDetail" data-id="{{item._id}}">详情</button>
+        <button class="delete-btn" wx:if="{{userInfo.role === 'admin'}}" bindtap="deleteRecord" data-id="{{item._id}}">删除</button>
       </view>
     </view>
 

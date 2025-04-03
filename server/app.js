@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const steelCoilsRoute = require('./routes/steelCoils');
+const auth = require('./routes/auth');
+
 
 require('dotenv').config(); // 加载环境变量
 
@@ -22,6 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // 路由
 app.use('/api/steel-coils', steelCoilsRoute);
+app.use('/api/auth', auth);
+
 
 // 启动服务器
 const PORT = process.env.PORT || 5000;

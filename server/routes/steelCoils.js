@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const SteelCoil = require('../models/SteelCoil');
+const { minioClient } = require('../utils/minio'); // 引入 MinIO 客户端
+
 // const multer = require('multer');
 const path = require('path');
+const { isAdmin } = require('../middlewares/authMiddleware'); // 引入权限验证中间件
 // const { uploadFile } = require('../utils/cos');
 const { getPresignedPutUrl, getPresignedPostPolicy } = require('../utils/minio'); // 需自行实现
 const mongoose = require('mongoose');
@@ -89,7 +92,7 @@ router.get('/query', async (req, res) => {
       if (!isValidId) {
         return res.status(400).json({ error: "非法ID格式" });
       }else{
-        query.id = id;
+        query._id = id;
       }
     }
 
@@ -175,5 +178,46 @@ router.post('/repair', async (req, res) => {
   }
 
 })
+
+// 删除钢卷记录
+router.delete('/delete/:id', isAdmin, async (req, res) => {
+  try {
+      const id = req.params.id;
+      const isValidId = mongoose.Types.ObjectId.isValid(id);
+      if (!isValidId) {
+          return res.status(400).json({ error: "非法 ID 格式" });
+      }
+
+      const record = await SteelCoil.findById(id);
+      if (!record) {
+          return res.status(404).json({ error: "记录不存在" });
+      }
+
+      // 删除 MinIO 中的图片
+      const deletePromises = [];
+      record.photos.forEach(photo => {
+          const objectKey = path.basename(photo.url);
+          deletePromises.push(new Promise((resolve, reject) => {
+              minioClient.removeObject(process.env.MINIO_BUCKET, objectKey, (err) => {
+                  if (err) {
+                      console.error('删除 MinIO 图片失败:', err);
+                      reject(err);
+                  } else {
+                      resolve();
+                  }
+              });
+          }));
+      });
+
+      await Promise.all(deletePromises);
+
+      // 删除数据库中的记录
+      await SteelCoil.findByIdAndDelete(id);
+
+      res.status(200).json({ message: '记录删除成功' });
+  } catch (err) {
+      res.status(500).json({ error: err.message });
+  }
+});
 
 module.exports = router;

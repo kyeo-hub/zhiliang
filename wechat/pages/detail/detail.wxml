@@ -75,12 +75,12 @@
         <text class="card-title">修复后照片 ({{detail.repairedPhotos.length}}张)</text>
       </view>
       <view wx:if="{{detail.repairedPhotos.length === 0}}">
-        <text class="card-title">无缺陷照片</text>
+        <text class="card-title">无修复照片</text>
       </view>
       <view wx:else>
         <scroll-view class="photo-list" scroll-x>
           <block wx:for="{{detail.repairedPhotos}}" wx:key="index">
-            <image class="photo" src="{{item.url}}" mode="aspectFill" bindtap="previewImage" data-index="{{index}}" />
+            <image class="photo" src="{{item.url}}" mode="aspectFill" bindtap="preview_Image" data-index="{{index}}" />
           </block>
         </scroll-view>
       </view>

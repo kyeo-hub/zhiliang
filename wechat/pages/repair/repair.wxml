@@ -87,7 +87,7 @@
                 class="preview-image" 
                 src="{{item}}" 
                 mode="aspectFill" 
-                bindtap="previewImage" 
+                bindtap="preview_Image" 
                 data-index="{{index}}"
               />
             </block>
