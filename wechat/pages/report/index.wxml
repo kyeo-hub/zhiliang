@@ -33,5 +33,9 @@
       </view>
     </view>
     <button form-type="submit" class="submit-btn" loading="{{isSubmitting}}">提交</button>
+    <view class="button-container">
+      <button bindtap="refreshPage">刷新页面</button>
+      <button bindtap="clearImages">清空图片</button>
+    </view>
   </form>
 </view>

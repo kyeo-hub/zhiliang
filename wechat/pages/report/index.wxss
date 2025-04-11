@@ -251,3 +251,9 @@ label {
   margin: 20rpx;
   border-radius: 50%;
 }
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}

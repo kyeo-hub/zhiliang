@@ -61,6 +61,20 @@ Component({
         }
       });
     },
+    // 刷新页面
+    refreshPage() {
+      wx.reLaunch({
+        url: '/pages/report/index' // 重新加载当前页面
+      });
+    },
+
+    // 清空图片
+    clearImages() {
+      this.setData({
+        images: [], // 清空图片列表
+        photoUrls: [] // 清空图片 URL 列表
+      });
+    },
 
     // 上传图片到MinIO
     async uploadToMinIO(filePath, presignedData) {
@@ -132,7 +146,7 @@ Component({
         }
       });
     },
-    quit(){
+    quit() {
       wx.clearStorageSync()
       wx.reLaunch({
         url: '/pages/record/index',
@@ -198,7 +212,8 @@ Component({
               });
               // 清空表单
               this.setData({
-                /* 清空字段 */ });
+                /* 清空字段 */
+              });
             }
           },
           fail(err) {
